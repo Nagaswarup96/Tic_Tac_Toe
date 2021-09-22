@@ -1,33 +1,15 @@
-import React, { useState } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
 import Square from './Square';
 
-export default function Board() {
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(false);
-
-  const handleSquareClick = position => {
-    if (board[position]) {
-      return;
-    }
-
-    setBoard(prev => {
-      return prev.map((sqr, pos) => {
-        if (pos === position) {
-          return isXNext ? 'X' : 'O';
-        }
-        return sqr;
-      });
-    });
-
-    setIsXNext(prev => !prev);
-  };
-
+export default function Board({ board, handleSquareClick, winningSquares }) {
   const renderSquare = position => {
+    const isWinningSquares = winningSquares.includes(position);
+
     return (
       <Square
         value={board[position]}
         onClick={() => handleSquareClick(position)}
+        isWinningSquares={isWinningSquares}
       />
     );
   };
